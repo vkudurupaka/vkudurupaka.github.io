@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EC2 Interview Questions | Vishnu Kudurupaka</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #0f172a;
+            color: #f1f5f9;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #38bdf8;
+            text-align: center;
+        }
+
+        details {
+            background-color: #1e293b;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        summary {
+            cursor: pointer;
+            font-size: 18px;
+            color: #38bdf8;
+            font-weight: bold;
+        }
+
+        p, li {
+            line-height: 1.6;
+        }
+
+        a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+
+        .back {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="back">
+    <a href="index.html">⬅ Back to Home</a>
+</div>
+
+<h1>EC2 – Advanced Interview Questions </h1>
+
+  <details>
+<summary><strong>1️⃣ Explain EC2 Architecture in Detail</strong></summary>
+
+<p><strong>Answer:</strong></p>
+
+<p>
+Amazon EC2 instances run inside an AWS Region, within an Availability Zone (AZ), inside a VPC.
+</p>
+
+<p><strong>Key Components:</strong></p>
+<ul>
+<li><strong>AMI</strong> – Template used to launch the instance</li>
+<li><strong>Instance Type</strong> – Defines CPU, memory, networking, storage</li>
+<li><strong>EBS / Instance Store</strong> – Storage layer</li>
+<li><strong>Security Groups</strong> – Stateful firewall</li>
+<li><strong>NACL</strong> – Stateless subnet firewall</li>
+<li><strong>Elastic IP</strong> – Static public IPv4 address</li>
+<li><strong>IAM Role</strong> – Secure AWS API access</li>
+<li><strong>ENI</strong> – Elastic Network Interface</li>
+</ul>
+
+<p><strong>Advanced Insight:</strong></p>
+<p>
+Modern instance families (C5, M5, R5) use the Nitro Hypervisor, which provides near bare-metal performance and offloads networking and storage operations to dedicated hardware.
+</p>
+
+</details>
+
+  <details>
+<summary><strong>2️⃣ What is the Nitro System? Why is it important?</strong></summary>
+
+<p><strong>Answer:</strong></p>
+
+<p>AWS Nitro System is a combination of:</p>
+<ul>
+<li><strong>Nitro Hypervisor</strong></li>
+<li><strong>Nitro Cards</strong> (networking, EBS, security)</li>
+<li><strong>Nitro Security Chip</strong></li>
+</ul>
+
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>Minimal virtualization overhead</li>
+<li>Better performance</li>
+<li>Enhanced security isolation</li>
+<li>Hardware-based VPC networking</li>
+</ul>
+
+<p>Modern instance families such as C5, M5, R5 run on Nitro.</p>
+
+</details>
+
+  <details>
+<summary><strong>3️⃣ How do you design highly available EC2 architecture?</strong></summary>
+
+<p><strong>Answer:</strong></p>
+
+<p>For production-grade high availability:</p>
+<ul>
+<li>Use Auto Scaling Group (ASG)</li>
+<li>Deploy across multiple Availability Zones</li>
+<li>Use Application Load Balancer</li>
+<li>Store state externally (RDS, DynamoDB, ElastiCache)</li>
+<li>Enable EBS snapshots</li>
+<li>Configure ELB & EC2 health checks</li>
+</ul>
+
+<p><strong>Architecture Pattern:</strong></p>
+<pre>
+Route 53
+   ↓
+ALB (Multi-AZ)
+   ↓
+ASG (Multi-AZ)
+   ↓
+RDS (Multi-AZ)
+</pre>
+
+<p><strong>Advanced:</strong> Use lifecycle hooks, warm pools, and capacity rebalance for Spot instances.</p>
+
+</details>
+
+  <details>
+<summary><strong>4️⃣ Difference Between Security Groups and NACLs</strong></summary>
+
+<table border="1" cellpadding="6">
+<tr><th>Feature</th><th>Security Group</th><th>NACL</th></tr>
+<tr><td>Level</td><td>Instance</td><td>Subnet</td></tr>
+<tr><td>Stateful</td><td>Yes</td><td>No</td></tr>
+<tr><td>Allow/Deny</td><td>Allow only</td><td>Allow & Deny</td></tr>
+<tr><td>Evaluation</td><td>All rules evaluated</td><td>Processed in order</td></tr>
+</table>
+
+<p><strong>Senior Insight:</strong> Prefer Security Groups for application-level control. Use NACLs for subnet boundary security.</p>
+
+</details>
+
+  <details>
+<summary><strong>5️⃣ Explain EC2 Instance Purchasing Options</strong></summary>
+
+<ul>
+<li><strong>On-Demand</strong> – No commitment, pay per usage</li>
+<li><strong>Reserved Instances</strong> – 1/3 year commitment, up to 75% cheaper</li>
+<li><strong>Savings Plans</strong> – Flexible compute commitment</li>
+<li><strong>Spot Instances</strong> – Up to 90% cheaper, interruptible</li>
+<li><strong>Dedicated Hosts</strong> – Compliance / licensing needs</li>
+</ul>
+
+<p><strong>Expert Tip:</strong> Spot for stateless workloads, Savings Plans for baseline usage.</p>
+
+</details>
+
+  <details>
+<summary><strong>6️⃣ What happens when an EC2 instance fails health check?</strong></summary>
+
+<ul>
+<li>EC2 status check fails → hardware recovery</li>
+<li>ELB health check fails → removed from target group</li>
+<li>ASG health check fails → terminated & replaced</li>
+</ul>
+
+<p><strong>Advanced:</strong> Enable auto-recovery, monitor CloudWatch, configure ASG grace period.</p>
+
+</details>
+
+  <details>
+<summary><strong>7️⃣ Explain EBS Volume Types and Use Cases</strong></summary>
+
+<table border="1" cellpadding="6">
+<tr><th>Type</th><th>Use Case</th></tr>
+<tr><td>gp3</td><td>General purpose workloads</td></tr>
+<tr><td>io2</td><td>High IOPS databases</td></tr>
+<tr><td>st1</td><td>Throughput optimized HDD</td></tr>
+<tr><td>sc1</td><td>Cold storage HDD</td></tr>
+</table>
+
+<p><strong>Advanced:</strong> gp3 supports independent IOPS tuning. io2 supports 99.999% durability.</p>
+
+</details>
+
+  <details>
+<summary><strong>8️⃣ How does Auto Scaling work internally?</strong></summary>
+
+<ul>
+<li>Launch Template</li>
+<li>Scaling Policies</li>
+<li>CloudWatch Alarms</li>
+<li>Health Checks</li>
+</ul>
+
+<p><strong>Scaling Types:</strong></p>
+<ul>
+<li>Target Tracking</li>
+<li>Step Scaling</li>
+<li>Scheduled Scaling</li>
+<li>Predictive Scaling</li>
+</ul>
+
+<p><strong>Advanced:</strong> Use lifecycle hooks & warm pools.</p>
+
+</details>
+
+  <details>
+<summary><strong>9️⃣ How do you secure EC2 instances?</strong></summary>
+
+<ul>
+<li>IAM Roles (no hardcoded keys)</li>
+<li>Security Groups & NACL</li>
+<li>Disable password login</li>
+<li>Use SSM instead of SSH</li>
+<li>Encrypt EBS volumes</li>
+<li>Enforce IMDSv2</li>
+</ul>
+
+</details>
+
+  <details>
+<summary><strong>🔟 Explain ENI (Elastic Network Interface)</strong></summary>
+
+<p><strong>Features:</strong></p>
+<ul>
+<li>Primary & secondary private IPs</li>
+<li>Elastic IP association</li>
+<li>Security groups</li>
+<li>MAC address</li>
+</ul>
+
+<p><strong>Use Cases:</strong> Failover, network appliances, multi-homed architecture.</p>
+
+</details>
+
+  <details>
+<summary><strong>1️⃣1️⃣ How do you troubleshoot high CPU in EC2?</strong></summary>
+
+<ul>
+<li>Check CloudWatch metrics</li>
+<li>Use top / htop</li>
+<li>Check load average</li>
+<li>Check memory & swap</li>
+<li>Investigate I/O wait</li>
+</ul>
+
+<p><strong>Advanced:</strong> Check CPU credits (T-series), steal time, enhanced monitoring.</p>
+
+</details>
+
+  <details>
+<summary><strong>1️⃣2️⃣ What is EC2 Placement Group?</strong></summary>
+
+<ul>
+<li><strong>Cluster</strong> – Low latency (HPC)</li>
+<li><strong>Spread</strong> – Different hardware</li>
+<li><strong>Partition</strong> – Large distributed systems</li>
+</ul>
+
+</details>
+
+  <details>
+<summary><strong>1️⃣3️⃣ Enterprise EC2 Cost Optimization</strong></summary>
+
+<ul>
+<li>Savings Plans</li>
+<li>Spot + Mixed ASG</li>
+<li>Right-sizing via Compute Optimizer</li>
+<li>Instance scheduling</li>
+<li>Delete unattached EBS</li>
+</ul>
+
+</details>
+
+  <details>
+<summary><strong>1️⃣4️⃣ What is IMDS and why IMDSv2 is important?</strong></summary>
+
+<p>IMDS provides instance metadata and IAM role credentials.</p>
+
+<ul>
+<li>IMDSv2 uses session-based authentication</li>
+<li>Prevents SSRF attacks</li>
+</ul>
+
+<p><strong>Always enforce IMDSv2.</strong></p>
+
+</details>
+
+  <details>
+<summary><strong>1️⃣5️⃣ Design a 3-tier architecture using EC2</strong></summary>
+
+<ul>
+<li>Web Tier – Public Subnet</li>
+<li>App Tier – Private Subnet</li>
+<li>DB Tier – Private (RDS)</li>
+</ul>
+
+<p>Use ALB in public, EC2 private, NAT for outbound.</p>
+
+</details>
+
+  <details>
+<summary><strong>1️⃣6️⃣ What is EC2 Hibernation?</strong></summary>
+
+<ul>
+<li>Saves RAM state to EBS</li>
+<li>Faster restart</li>
+<li>Requires encrypted EBS</li>
+</ul>
+
+</details>
+
+  <details>
+<summary><strong>1️⃣7️⃣ Difference Between Stop and Terminate</strong></summary>
+
+<table border="1" cellpadding="6">
+<tr><th>Stop</th><th>Terminate</th></tr>
+<tr><td>Restartable</td><td>Permanent delete</td></tr>
+<tr><td>EBS preserved</td><td>EBS deleted (if configured)</td></tr>
+<tr><td>Instance ID preserved</td><td>Instance ID lost</td></tr>
+</table>
+
+</details>
+
+  <details>
+<summary><strong>1️⃣8️⃣ How would you migrate 200 on-prem servers to EC2?</strong></summary>
+
+<ul>
+<li>AWS Migration Hub assessment</li>
+<li>AWS Application Migration Service</li>
+<li>Replication & staging VPC testing</li>
+<li>DNS cutover</li>
+<li>Blue/Green strategy</li>
+<li>Rollback plan</li>
+</ul>
+
+</details>
+
+  <details>
+<summary><strong>1️⃣9️⃣ Explain EC2 Lifecycle</strong></summary>
+
+<ul>
+<li>Pending</li>
+<li>Running</li>
+<li>Stopping</li>
+<li>Stopped</li>
+<li>Shutting-down</li>
+<li>Terminated</li>
+</ul>
+
+<p>Billing applies in running state. EBS charged even if stopped.</p>
+
+</details>
+
+  <details>
+<summary><strong>2️⃣0️⃣ Common Production Mistakes</strong></summary>
+
+<ul>
+<li>Hardcoded credentials</li>
+<li>Single AZ deployment</li>
+<li>No monitoring</li>
+<li>No backup strategy</li>
+<li>Not encrypting volumes</li>
+<li>Not enabling IMDSv2</li>
+<li>Overprovisioning</li>
+</ul>
+
+</details>
+
+  <details>
+<summary><strong>2️⃣1️⃣ What is an Elastic IP (EIP)?</strong></summary>
+
+<p><strong>Answer:</strong></p>
+
+<p>An Elastic IP (EIP) is a static public IPv4 address allocated to your AWS account that can be associated with an EC2 instance or ENI.</p>
+
+<p><strong>Key Characteristics:</strong></p>
+<ul>
+<li>Static public IP</li>
+<li>Remains allocated until released</li>
+<li>Region-specific</li>
+<li>Can be remapped to another instance</li>
+</ul>
+
+<p><strong>When to Use:</strong></p>
+<ul>
+<li>Firewall whitelisting</li>
+<li>External integrations</li>
+<li>Legacy systems</li>
+<li>Bastion host</li>
+<li>NAT instance (legacy design)</li>
+</ul>
+
+<p><strong>Senior Insight:</strong> Avoid using EIP for modern web applications. Prefer Load Balancer or Route 53.</p>
+
+<p><strong>Stop/Start Behavior:</strong></p>
+<ul>
+<li>Auto-assigned public IP changes</li>
+<li>Elastic IP remains same if attached</li>
+<li>EIP can be reassociated</li>
+</ul>
+
+<p><strong>Pricing:</strong></p>
+<ul>
+<li>Free when attached to running instance</li>
+<li>Charged if unattached or idle</li>
+</ul>
+
+<table border="1" cellpadding="6">
+<tr><th>Feature</th><th>Public IP</th><th>Elastic IP</th></tr>
+<tr><td>Static</td><td>No</td><td>Yes</td></tr>
+<tr><td>Changes on Restart</td><td>Yes</td><td>No</td></tr>
+<tr><td>Charged</td><td>No</td><td>Yes (if unused)</td></tr>
+<tr><td>Remappable</td><td>No</td><td>Yes</td></tr>
+</table>
+
+</details>
+
+  <details>
+<summary><strong>2️⃣2️⃣ What is an EC2 Key Pair?</strong></summary>
+
+<p>A Key Pair consists of:</p>
+<ul>
+<li>Public key (stored in AWS)</li>
+<li>Private key (downloaded once)</li>
+</ul>
+
+<p>Used for SSH authentication to Linux instances.</p>
+
+<p><strong>How it Works:</strong></p>
+<p>During instance launch, AWS injects the public key into:</p>
+<pre>~/.ssh/authorized_keys</pre>
+
+<p>SSH verifies that the private key matches the public key. No password is transmitted.</p>
+
+<p><strong>If Private Key is Lost:</strong></p>
+<ul>
+<li>AWS does NOT store it</li>
+<li>SSH access is lost</li>
+<li>Instance continues running</li>
+</ul>
+
+<p><strong>Recovery Options:</strong></p>
+<ul>
+<li>Use SSM Session Manager</li>
+<li>Modify authorized_keys manually</li>
+<li>Detach root volume and edit file</li>
+<li>Create AMI & relaunch</li>
+</ul>
+
+<p><strong>Best Practice:</strong> Use SSM instead of SSH keys.</p>
+
+<table border="1" cellpadding="6">
+<tr><th>Key Pair</th><th>IAM Role</th></tr>
+<tr><td>SSH Login</td><td>AWS API Access</td></tr>
+<tr><td>OS-level access</td><td>Service-level access</td></tr>
+<tr><td>Manual management</td><td>Temporary credentials</td></tr>
+</table>
+
+</details>
+
+  <details>
+<summary><strong>2️⃣3️⃣ What Load Balancer types does AWS support?</strong></summary>
+
+<ul>
+<li>Application Load Balancer (ALB)</li>
+<li>Network Load Balancer (NLB)</li>
+<li>Gateway Load Balancer (GWLB)</li>
+<li>Classic Load Balancer (Legacy)</li>
+</ul>
+
+</details>
+
+  <details>
+<summary><strong>2️⃣4️⃣ When do you use Application Load Balancer (ALB)?</strong></summary>
+
+<ul>
+<li>HTTP/HTTPS traffic</li>
+<li>Path-based routing</li>
+<li>Host-based routing</li>
+<li>Microservices</li>
+<li>Containers (ECS/EKS)</li>
+</ul>
+
+<p><strong>Example:</strong></p>
+<pre>
+/api → Service A
+/auth → Service B
+</pre>
+
+<p>Layer 7 (Application Layer)</p>
+
+</details>
+
+  <details>
+<summary><strong>2️⃣5️⃣ When do you use Network Load Balancer (NLB)?</strong></summary>
+
+<ul>
+<li>TCP / UDP traffic</li>
+<li>Very high throughput</li>
+<li>Low latency</li>
+<li>Static IP support</li>
+<li>Gaming or trading systems</li>
+</ul>
+
+<p>Layer 4 (Transport Layer)</p>
+
+</details>
+
+  <details>
+<summary><strong>2️⃣6️⃣ Difference Between ALB and NLB</strong></summary>
+
+<table border="1" cellpadding="6">
+<tr><th>Feature</th><th>ALB</th><th>NLB</th></tr>
+<tr><td>Layer</td><td>7</td><td>4</td></tr>
+<tr><td>Path-based Routing</td><td>Yes</td><td>No</td></tr>
+<tr><td>Static IP</td><td>No</td><td>Yes</td></tr>
+<tr><td>WebSockets</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Performance</td><td>Moderate</td><td>Very High</td></tr>
+</table>
+
+</details>
+
+  <details>
+<summary><strong>2️⃣7️⃣ How does Load Balancer perform health checks?</strong></summary>
+
+<ul>
+<li>Periodic checks to target group</li>
+<li>If unhealthy → removed from rotation</li>
+<li>ASG can replace failed instance</li>
+</ul>
+
+<p><strong>Important Parameters:</strong></p>
+<ul>
+<li>Healthy threshold</li>
+<li>Unhealthy threshold</li>
+<li>Timeout</li>
+<li>Interval</li>
+</ul>
+
+</details>
+
+  <details>
+<summary><strong>2️⃣8️⃣ What happens if one AZ fails?</strong></summary>
+
+<p>If Load Balancer and ASG are multi-AZ:</p>
+<ul>
+<li>Traffic automatically routed to healthy AZ</li>
+<li>ASG launches replacement instances</li>
+</ul>
+
+</details>
+
+  <details>
+<summary><strong>2️⃣9️⃣ Can Load Balancer have Elastic IP?</strong></summary>
+
+<ul>
+<li>ALB → No</li>
+<li>NLB → Yes (static IP supported)</li>
+<li>Classic → No</li>
+</ul>
+
+</details>
+
+  <details>
+<summary><strong>3️⃣0️⃣ What is Cross-Zone Load Balancing?</strong></summary>
+
+<p>If enabled:</p>
+<ul>
+<li>Traffic evenly distributed across all targets</li>
+</ul>
+
+<p>If disabled:</p>
+<ul>
+<li>Traffic distributed per AZ</li>
+</ul>
+
+<p>Important when instance count differs across AZs.</p>
+
+</details>
+
+  <details>
+<summary><strong>3️⃣1️⃣ How do you secure a Load Balancer?</strong></summary>
+
+<ul>
+<li>Use HTTPS listener</li>
+<li>Attach ACM certificate</li>
+<li>Configure Security Groups</li>
+<li>Restrict backend SG to allow only from LB SG</li>
+<li>Enable WAF</li>
+<li>Enable access logs</li>
+</ul>
+
+</details>
+
+  <details>
+<summary><strong>3️⃣2️⃣ Users report 502 errors behind ALB. What do you check?</strong></summary>
+
+<ul>
+<li>Target health</li>
+<li>Security group rules</li>
+<li>Application logs</li>
+<li>Health check path</li>
+<li>Backend port mismatch</li>
+<li>Timeout settings</li>
+</ul>
+
+</details>
+
+  <details>
+<summary><strong>3️⃣3️⃣ What happens if the EC2 key pair private key is lost? How do you recover access?</strong></summary>
+
+<p><strong>What Happens?</strong></p>
+
+<ul>
+<li>You cannot SSH into the instance.</li>
+<li>AWS does NOT store the private key — it cannot be recovered.</li>
+<li>The instance continues running normally.</li>
+<li>Only administrative (SSH) access is affected.</li>
+</ul>
+
+<p><strong>Important:</strong> Loss of private key does NOT impact application availability — only admin access.</p>
+
+<hr>
+
+<p><strong>Recovery Options (Production-Grade Approach)</strong></p>
+
+<p><strong>Option 1: Use SSM Session Manager (Best Practice)</strong></p>
+
+<p>If:</p>
+<ul>
+<li>IAM role is attached to the instance</li>
+<li>SSM Agent is installed</li>
+<li>Instance has internet or VPC endpoint access</li>
+</ul>
+
+<p>Then:</p>
+<ul>
+<li>Connect via AWS Systems Manager</li>
+<li>Add new public key to <code>~/.ssh/authorized_keys</code></li>
+</ul>
+
+<p><strong>This is the most secure and modern approach.</strong></p>
+
+<hr>
+
+<p><strong>Option 2: Detach Root Volume (If SSM Not Enabled)</strong></p>
+
+<ul>
+<li>Stop the instance</li>
+<li>Detach root EBS volume</li>
+<li>Attach volume to another EC2 instance</li>
+<li>Mount the volume</li>
+<li>Edit <code>/home/ec2-user/.ssh/authorized_keys</code></li>
+<li>Add new public key</li>
+<li>Reattach volume</li>
+<li>Start instance</li>
+</ul>
+
+<hr>
+
+<p><strong>Option 3: Create AMI and Relaunch</strong></p>
+
+<ul>
+<li>Create AMI from instance</li>
+<li>Launch new instance with new key pair</li>
+<li>Update DNS or Load Balancer</li>
+</ul>
+
+<p>Used when instance replacement is acceptable.</p>
+
+<hr>
+
+<p><strong>Senior-Level Interview Answer (10+ Years Experience)</strong></p>
+
+<p>
+In mature environments, we avoid this situation by disabling SSH access entirely and using SSM Session Manager. 
+Key pairs are considered legacy mechanisms. We enforce IAM roles, centralized access management, 
+and least-privilege policies to prevent operational risks.
+</p>
+
+</details>
