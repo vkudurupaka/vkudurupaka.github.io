@@ -12,32 +12,45 @@
         }
         header {
             background: #020617;
-            padding: 30px;
+            padding: 40px 20px;
             text-align: center;
         }
         header h1 {
             margin: 0;
             color: #38bdf8;
+            font-size: 32px;
         }
         header p {
-            margin-top: 10px;
+            margin-top: 12px;
             color: #94a3b8;
+            font-size: 16px;
         }
         section {
-            padding: 40px;
+            padding: 40px 20px;
             border-bottom: 1px solid #1e293b;
+            max-width: 1000px;
+            margin: auto;
         }
         h2 {
             color: #38bdf8;
+            margin-bottom: 15px;
         }
         ul {
             line-height: 1.8;
         }
+        .highlight-box {
+            background-color: #1e293b;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 1000px;
+        }
         footer {
             text-align: center;
-            padding: 20px;
+            padding: 25px;
             background: #020617;
             color: #64748b;
+            font-size: 14px;
         }
         a {
             color: #38bdf8;
@@ -49,26 +62,55 @@
 
 <header>
     <h1>Vishnu Kudurupaka</h1>
-    <p>AWS DevOps Engineer | SRE | Kubernetes | Terraform | CI/CD</p>
+    <p>AWS DevOps & Site Reliability Engineer | Kubernetes | Terraform | CI/CD | Cloud Architecture</p>
 </header>
+
+<section>
+    <h2>📘 About This Website</h2>
+    <p>
+        This platform is designed for AWS DevOps Engineers and Site Reliability Engineers (SREs) 
+        preparing for real-world production challenges and technical interviews.
+    </p>
+
+    <p>
+        It provides structured, interview-focused content covering AWS services, Kubernetes, 
+        Infrastructure as Code (Terraform & CloudFormation), CI/CD pipelines, Linux administration, 
+        cloud migration strategies, cost optimization techniques, and production incident management.
+    </p>
+
+    <p>
+        The objective is to bridge the gap between theoretical understanding and practical, 
+        real-time DevOps/SRE responsibilities in enterprise environments.
+    </p>
+</section>
+
+<div class="highlight-box">
+    <h2>🎯 Who Should Use This Website?</h2>
+    <ul>
+        <li>Engineers preparing for AWS DevOps interviews</li>
+        <li>SRE candidates preparing for production scenario-based questions</li>
+        <li>Professionals transitioning into Cloud & Kubernetes roles</li>
+        <li>Engineers seeking real-world troubleshooting knowledge</li>
+    </ul>
+</div>
 
 <section>
     <h2>☁️ AWS DevOps</h2>
     <ul>
-        <li>EC2, VPC, IAM, S3, RDS, ALB, ASG</li>
-        <li>CloudWatch Monitoring & Logs</li>
-        <li>CloudTrail Auditing</li>
-        <li>High Availability Architectures</li>
+        <li>EC2, VPC, IAM, S3, RDS, ALB, ASG Architecture</li>
+        <li>CloudWatch Monitoring & Logging</li>
+        <li>CloudTrail Auditing & Governance</li>
+        <li>High Availability & Fault-Tolerant Design</li>
     </ul>
 </section>
 
 <section>
     <h2>🚀 Kubernetes (EKS)</h2>
     <ul>
-        <li>Pods, Deployments, Services, Ingress</li>
-        <li>ConfigMaps & Secrets</li>
-        <li>Horizontal Pod Autoscaler</li>
-        <li>Kubernetes Version Upgrades</li>
+        <li>Pods, Deployments, Services & Ingress</li>
+        <li>ConfigMaps & Secrets Management</li>
+        <li>Horizontal Pod Autoscaling</li>
+        <li>Kubernetes Version Upgrades Strategy</li>
         <li>Troubleshooting CrashLoopBackOff & OOMKilled</li>
     </ul>
 </section>
@@ -77,8 +119,8 @@
     <h2>🏗 Infrastructure as Code</h2>
     <ul>
         <li>Terraform Modules & State Management</li>
-        <li>Remote Backend (S3 + DynamoDB)</li>
-        <li>CloudFormation Stacks</li>
+        <li>Remote Backend (S3 + DynamoDB Locking)</li>
+        <li>CloudFormation Stacks & Nested Templates</li>
         <li>Infrastructure Automation Best Practices</li>
     </ul>
 </section>
@@ -87,7 +129,7 @@
     <h2>🐧 Linux for DevOps</h2>
     <ul>
         <li>Process Management (top, ps, kill)</li>
-        <li>Networking (netstat, ss, curl)</li>
+        <li>Networking Tools (netstat, ss, curl)</li>
         <li>Disk & Memory Monitoring</li>
         <li>Log Analysis (grep, awk, journalctl)</li>
     </ul>
@@ -97,38 +139,38 @@
     <h2>🔄 CI/CD Pipelines</h2>
     <ul>
         <li>Pipeline Stages: Build → Test → Scan → Deploy</li>
-        <li>GitHub Actions</li>
-        <li>Jenkins Pipelines</li>
-        <li>Docker Build & Push to ECR</li>
+        <li>GitHub Actions Workflows</li>
+        <li>Jenkins Pipeline Architecture</li>
+        <li>Docker Build & Push to Amazon ECR</li>
     </ul>
 </section>
 
 <section>
     <h2>🌐 Application Troubleshooting</h2>
     <ul>
-        <li>HTTP 4xx & 5xx Errors</li>
+        <li>HTTP 4xx & 5xx Error Analysis</li>
         <li>SSL/HTTPS Certificate Issues</li>
-        <li>Load Balancer Debugging</li>
-        <li>Database Connectivity Issues</li>
+        <li>Load Balancer & Reverse Proxy Debugging</li>
+        <li>Database Connectivity & Timeout Issues</li>
     </ul>
 </section>
 
 <section>
     <h2>☁️ Cloud Migration</h2>
     <ul>
-        <li>Lift and Shift Strategy</li>
-        <li>Re-platforming</li>
-        <li>Migration Phases Planning</li>
+        <li>Lift & Shift Strategy</li>
+        <li>Re-platforming & Refactoring</li>
+        <li>Migration Planning & Phased Execution</li>
     </ul>
 </section>
 
 <section>
-    <h2>📊 SRE & Production Issues</h2>
+    <h2>📊 SRE & Production Engineering</h2>
     <ul>
-        <li>Incident Management</li>
-        <li>SLA / SLO / SLI Concepts</li>
+        <li>Incident Management & Escalation</li>
+        <li>SLA / SLO / SLI Implementation</li>
         <li>Root Cause Analysis (RCA)</li>
-        <li>Postmortem Documentation</li>
+        <li>Blameless Postmortems</li>
     </ul>
 </section>
 
@@ -137,8 +179,8 @@
     <ul>
         <li>Reserved Instances vs On-Demand</li>
         <li>Auto Scaling Optimization</li>
-        <li>Right-Sizing EC2 Instances</li>
-        <li>Storage Lifecycle Policies</li>
+        <li>Right-Sizing Compute Resources</li>
+        <li>Storage Lifecycle & Cost Governance</li>
     </ul>
 </section>
 
