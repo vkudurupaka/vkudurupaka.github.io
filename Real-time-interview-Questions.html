@@ -43,36 +43,51 @@
 
 <body>
 
-<div class="question">Q1. Did you create the Terraform pipeline?</div>
+<div class="question">1. Did you create the Terraform pipeline?</div>
 <div class="answer">
-Yes. I created Terraform CI/CD pipelines including init, validate, plan, approval, and apply stages. 
-Used S3 backend with DynamoDB for remote state and locking.
+Yes. I created Terraform CI/CD pipelines including:
+<ul>
+<li>terraform fmt</li>
+<li>terraform validate</li>
+<li>terraform init</li>
+<li>terraform plan</li>
+<li>Manual approval (for production)</li>
+<li>terraform apply</li>
+</ul>
+Best practices:
+<ul>
+<li>Remote backend (S3 + DynamoDB)</li>
+<li>Workspaces per environment</li>
+<li>IAM roles instead of static credentials</li>
+<li>Policy enforcement</li>
+</ul>
 </div>
 
-<div class="question">Q2. Did you also create the CloudFormation pipeline?</div>
+<div class="question">2. Did you also create the CloudFormation pipeline?</div>
 <div class="answer">
-Yes. I implemented CloudFormation pipelines using CodePipeline/Jenkins with template validation, change sets, and controlled deployments.
+Yes. I used validation, change sets, and deployed using CodePipeline or GitHub Actions.
+Separate stacks per environment and StackSets for multi-account deployments.
 </div>
 
-<div class="question">Q3. Do you know Kubernetes?</div>
+<div class="question">3. Do you know Kubernetes?</div>
 <div class="answer">
-Yes. I have experience with Pods, Deployments, Services, Ingress, ConfigMaps, Secrets, HPA, RBAC, Helm, and EKS cluster management.
+Yes. I have hands-on experience managing production workloads including EKS and AKS.
 </div>
 
-<div class="question">Q4. What is the latest Kubernetes version?</div>
+<div class="question">4. What is the latest Kubernetes version?</div>
 <div class="answer">
-Kubernetes versions are currently in the 1.29–1.30 range, with new releases approximately every 4 months.
+Kubernetes releases three minor versions per year. The latest version is typically around v1.30+ (verify at kubernetes.io).
 </div>
 
-<div class="question">Q5. What is the latest EKS version?</div>
+<div class="question">5. What is the latest EKS version?</div>
 <div class="answer">
-Amazon EKS typically supports the latest 3–4 Kubernetes versions. Currently around version 1.29 depending on region.
+EKS usually supports up to Kubernetes 1.29 / 1.30 depending on region. Always verify using AWS documentation.
 </div>
 
-<div class="question">Q6. What is QoS in Kubernetes?</div>
+<div class="question">6. What is QoS in Kubernetes?</div>
 <div class="answer">
-QoS (Quality of Service) defines pod eviction priority during resource pressure. 
-Classes are:
+QoS (Quality of Service) defines how Kubernetes prioritizes Pods during resource pressure.
+There are three QoS classes:
 <ul>
 <li>Guaranteed</li>
 <li>Burstable</li>
@@ -80,84 +95,106 @@ Classes are:
 </ul>
 </div>
 
-<div class="question">Q7. Which QoS class is evicted last?</div>
+<div class="question">7. Which QoS class is evicted last?</div>
 <div class="answer">
-Guaranteed pods are evicted last during resource starvation.
+Guaranteed Pods are evicted last during resource starvation.
 </div>
 
-<div class="question">Q8. How do you configure requests and limits to make a Pod evicted last?</div>
+<div class="question">8. How do you configure requests and limits to make a Pod evicted last?</div>
 <div class="answer">
-Set CPU and Memory requests equal to limits.
+Set CPU and memory requests equal to limits:
 <code>
 resources:
   requests:
     cpu: "500m"
-    memory: "512Mi"
+    memory: "256Mi"
   limits:
     cpu: "500m"
-    memory: "512Mi"
+    memory: "256Mi"
 </code>
 </div>
 
-<div class="question">Q9. What is a Liveness Probe?</div>
+<div class="question">9. What is a liveness probe?</div>
 <div class="answer">
-A liveness probe checks if a container is running properly. 
-If it fails, Kubernetes restarts the container.
+Checks if a container is running. If it fails, Kubernetes restarts the container.
+<code>
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8080
+</code>
 </div>
 
-<div class="question">Q10. What is a Readiness Probe?</div>
+<div class="question">10. What is a readiness probe?</div>
 <div class="answer">
-A readiness probe checks if a container is ready to receive traffic. 
-If it fails, traffic stops but the container is not restarted.
+Checks if a container is ready to receive traffic. If it fails, the Pod is removed from service endpoints.
 </div>
 
-<div class="question">Q11. Do you know CloudWatch?</div>
+<div class="question">11. Do you know CloudWatch?</div>
 <div class="answer">
-Yes. CloudWatch is used for monitoring AWS resources including metrics, logs, alarms, dashboards, and Log Insights queries.
+CloudWatch provides metrics, logs, alarms, dashboards, and monitoring services in AWS.
 </div>
 
-<div class="question">Q12. Do you know CloudTrail?</div>
+<div class="question">12. Do you know CloudTrail?</div>
 <div class="answer">
-Yes. CloudTrail records AWS API activity for auditing, governance, and security analysis.
+CloudTrail records AWS API activity for auditing and security analysis.
 </div>
 
-<div class="question">Q13. Do you know Azure Monitor?</div>
+<div class="question">13. Do you know Azure Monitor?</div>
 <div class="answer">
-Yes. Azure Monitor provides monitoring, Log Analytics, Application Insights, alerts, and KQL-based queries.
+Azure Monitor provides metrics, logs, Application Insights, and alerting.
 </div>
 
-<div class="question">Q14. Do you know Grafana?</div>
+<div class="question">14. Do you know Grafana?</div>
 <div class="answer">
-Yes. Grafana is used for creating monitoring dashboards integrated with Prometheus, CloudWatch, and Azure Monitor.
+Grafana is an open-source visualization tool used with Prometheus, CloudWatch, Azure Monitor, and others.
 </div>
 
-<div class="question">Q15. How would you see all CloudWatch logs in one place?</div>
+<div class="question">15. How would you see all CloudWatch logs in one place?</div>
 <div class="answer">
-Use CloudWatch Log Insights to query multiple log groups or configure centralized cross-account logging with subscription filters.
+Use centralized logging:
+<ul>
+<li>Cross-account subscription filters</li>
+<li>Kinesis Firehose</li>
+<li>Central logging account</li>
+<li>OpenSearch or S3 + Athena</li>
+</ul>
 </div>
 
-<div class="question">Q16. Can a Lambda in Account A send logs to Account B?</div>
+<div class="question">16. Can a Lambda in Account A send logs to Account B?</div>
 <div class="answer">
-Yes. This can be achieved using cross-account subscription filters with proper IAM role and resource policy configuration.
+Yes. Use CloudWatch subscription filters with cross-account permissions or Kinesis Firehose.
 </div>
 
-<div class="question">Q17. How would you centralize logs from multiple Lambdas?</div>
+<div class="question">17. How would you centralize logs from multiple Lambdas?</div>
 <div class="answer">
-Create a centralized logging account and use subscription filters to send logs to Kinesis, Firehose, OpenSearch, or S3.
+All Lambdas log to CloudWatch → Subscription filters → Central account → Store in S3/OpenSearch.
 </div>
 
-<div class="question">Q18. Can you write a shell script that accepts one parameter and prints it?</div>
+<div class="question">18. Can you write a shell script that accepts one parameter and prints it?</div>
 <div class="answer">
 <code>
 #!/bin/bash
 
 if [ -z "$1" ]; then
-  echo "Please provide a parameter"
+  echo "Usage: $0 <parameter>"
   exit 1
 fi
 
-echo "You entered: $1"
+echo "You passed: $1"
 </code>
+</div>
+
+<div class="question">19. If a developer manually changes a Lambda tag and you run terraform plan, what happens?</div>
+<div class="answer">
+Terraform detects drift and shows changes in the plan. On apply, it will revert the manual change.
+To avoid this:
+<ul>
+<li>Restrict console access</li>
+<li>Use IAM/SCP policies</li>
+<li>Enable drift detection in CI/CD</li>
+<li>Use AWS Config rules</li>
+</ul>
 </div>
 
 </body>
