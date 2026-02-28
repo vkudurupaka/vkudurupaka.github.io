@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DevOps Interview Questions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        background-color: white;
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        line-height: 1.6;
+    }
+
+    .question {
+        color: navy;
+        font-weight: bold;
+        font-size: 22px;
+        margin-top: 30px;
+    }
+
+    .answer {
+        color: black;
+        font-weight: normal;
+        font-size: 18px;
+        margin-top: 10px;
+    }
+
+    ul {
+        margin-top: 10px;
+    }
+
+    code {
+        background-color: #f4f4f4;
+        padding: 10px;
+        display: block;
+        margin-top: 10px;
+        white-space: pre-wrap;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="question">Q1. Did you create the Terraform pipeline?</div>
+<div class="answer">
+Yes. I created Terraform CI/CD pipelines including init, validate, plan, approval, and apply stages. 
+Used S3 backend with DynamoDB for remote state and locking.
+</div>
+
+<div class="question">Q2. Did you also create the CloudFormation pipeline?</div>
+<div class="answer">
+Yes. I implemented CloudFormation pipelines using CodePipeline/Jenkins with template validation, change sets, and controlled deployments.
+</div>
+
+<div class="question">Q3. Do you know Kubernetes?</div>
+<div class="answer">
+Yes. I have experience with Pods, Deployments, Services, Ingress, ConfigMaps, Secrets, HPA, RBAC, Helm, and EKS cluster management.
+</div>
+
+<div class="question">Q4. What is the latest Kubernetes version?</div>
+<div class="answer">
+Kubernetes versions are currently in the 1.29–1.30 range, with new releases approximately every 4 months.
+</div>
+
+<div class="question">Q5. What is the latest EKS version?</div>
+<div class="answer">
+Amazon EKS typically supports the latest 3–4 Kubernetes versions. Currently around version 1.29 depending on region.
+</div>
+
+<div class="question">Q6. What is QoS in Kubernetes?</div>
+<div class="answer">
+QoS (Quality of Service) defines pod eviction priority during resource pressure. 
+Classes are:
+<ul>
+<li>Guaranteed</li>
+<li>Burstable</li>
+<li>BestEffort</li>
+</ul>
+</div>
+
+<div class="question">Q7. Which QoS class is evicted last?</div>
+<div class="answer">
+Guaranteed pods are evicted last during resource starvation.
+</div>
+
+<div class="question">Q8. How do you configure requests and limits to make a Pod evicted last?</div>
+<div class="answer">
+Set CPU and Memory requests equal to limits.
+<code>
+resources:
+  requests:
+    cpu: "500m"
+    memory: "512Mi"
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+</code>
+</div>
+
+<div class="question">Q9. What is a Liveness Probe?</div>
+<div class="answer">
+A liveness probe checks if a container is running properly. 
+If it fails, Kubernetes restarts the container.
+</div>
+
+<div class="question">Q10. What is a Readiness Probe?</div>
+<div class="answer">
+A readiness probe checks if a container is ready to receive traffic. 
+If it fails, traffic stops but the container is not restarted.
+</div>
+
+<div class="question">Q11. Do you know CloudWatch?</div>
+<div class="answer">
+Yes. CloudWatch is used for monitoring AWS resources including metrics, logs, alarms, dashboards, and Log Insights queries.
+</div>
+
+<div class="question">Q12. Do you know CloudTrail?</div>
+<div class="answer">
+Yes. CloudTrail records AWS API activity for auditing, governance, and security analysis.
+</div>
+
+<div class="question">Q13. Do you know Azure Monitor?</div>
+<div class="answer">
+Yes. Azure Monitor provides monitoring, Log Analytics, Application Insights, alerts, and KQL-based queries.
+</div>
+
+<div class="question">Q14. Do you know Grafana?</div>
+<div class="answer">
+Yes. Grafana is used for creating monitoring dashboards integrated with Prometheus, CloudWatch, and Azure Monitor.
+</div>
+
+<div class="question">Q15. How would you see all CloudWatch logs in one place?</div>
+<div class="answer">
+Use CloudWatch Log Insights to query multiple log groups or configure centralized cross-account logging with subscription filters.
+</div>
+
+<div class="question">Q16. Can a Lambda in Account A send logs to Account B?</div>
+<div class="answer">
+Yes. This can be achieved using cross-account subscription filters with proper IAM role and resource policy configuration.
+</div>
+
+<div class="question">Q17. How would you centralize logs from multiple Lambdas?</div>
+<div class="answer">
+Create a centralized logging account and use subscription filters to send logs to Kinesis, Firehose, OpenSearch, or S3.
+</div>
+
+<div class="question">Q18. Can you write a shell script that accepts one parameter and prints it?</div>
+<div class="answer">
+<code>
+#!/bin/bash
+
+if [ -z "$1" ]; then
+  echo "Please provide a parameter"
+  exit 1
+fi
+
+echo "You entered: $1"
+</code>
+</div>
+
+</body>
+</html>
